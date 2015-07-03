@@ -1,0 +1,13 @@
+/* Usage examples
+ * @include anime(opacity);
+ * @include anime((opacity, padding, margin)); // multiple properties can be passed by wrapping with () brackets
+ * @include anime((opacity, padding, margin), 0.5s, ease-in, 0.25s); // you can set duration and timing function
+ * @include anime(); // will animate all properties */
+@mixin anime($props: all, $duration: 0.2s, $timing: ease-out, $delay: 0s) {
+	transition: {
+		duration: $duration;
+		property: $props;
+		timing-function: $timing;
+		delay: $delay;
+	}
+}

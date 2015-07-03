@@ -1,0 +1,32 @@
+@import 'modules';
+
+*, *:before, *:after { box-sizing: border-box; }
+
+body {
+	background-color: gray;
+
+	@media (max-width: 600px) {
+		background-color: blue;
+	}
+
+	p {
+		color: white;
+		@include anime(color);
+
+		&:hover { color: black; }
+
+		@media (max-width: 600px) {
+			font-size: 30px;
+		}
+	}
+}
+
+[class^='one'] { color: blue; }
+.one--red { color: red; }
+.one--green { color: green; }
+
+.two {
+	color: blue;
+	&--red { color: red; }
+	&--green { color: green; }
+}
