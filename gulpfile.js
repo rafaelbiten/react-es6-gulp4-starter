@@ -1,4 +1,5 @@
 var gulp		= require('gulp');
+var args		= require('yargs').argv;
 var babelify	= require('babelify');
 var browserify	= require('browserify');
 var browserSync	= require('browser-sync');
@@ -60,6 +61,12 @@ var config		= require('./gulp.config.js');
 			.pipe($.sass().on('error', $.sass.logError))
 			.pipe($.autoprefixer(config.autoprefixer))
 			.pipe($.sourcemaps.write())
+
+				// run gulp with --prod flag
+				.pipe($.if( args.prod, $.combineMq() ))
+				.pipe($.if( args.prod, $.minifyCss() ))
+				.pipe($.if( args.prod, $.stripCssComments() ))
+
 			.pipe(gulp.dest(config.paths.dist.styles))
 			.pipe(browserSync.reload({stream: true}));
 	});
