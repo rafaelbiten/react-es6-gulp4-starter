@@ -57,10 +57,10 @@ var config		= require('./gulp.config.js');
 
 	gulp.task('styles', function() {
 		return gulp.src(config.paths.src.styles + '**/*.scss')
-			.pipe($.sourcemaps.init())
+			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.init() ))
 			.pipe($.sass().on('error', $.sass.logError))
 			.pipe($.autoprefixer(config.autoprefixer))
-			.pipe($.sourcemaps.write())
+			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.write() ))
 
 				// run gulp with --prod flag
 				.pipe($.if( args.prod, $.combineMq() ))
@@ -91,12 +91,6 @@ var config		= require('./gulp.config.js');
  * ------------------------------------------------------------------ */
 
 	// gulp.task('build', ['vendors', 'scripts', 'styles'], function() {
-	// 	// set styles for production
-	// 	gulp.src(config.paths.dist.styles + '*.css')
-	// 		.pipe($.combineMq())
-	// 		.pipe($.minifyCss())
-	// 		.pipe($.stripCssComments())
-	// 		.pipe(gulp.dest(config.paths.dist.styles));
 
 	// 	// set scripts for production
 	// 	gulp.src([	config.paths.dist.scripts + 'vendors.js',
