@@ -1,13 +1,12 @@
 module.exports = (function() {
 	var options = {
 
-		// install dependencies using npm --save-dev
-		// and list them here to be bundled into vendors.js
-		vendors: [
-			'react',
-			'jquery'
-		],
+		// install dependencies using npm --save
+		// and they will be compiled into vendors.js
+		vendors: Object.keys(require('./package').dependencies),
 
+		// if you already have a server (ie.: running vagrant),
+		// comment server and set proxy with your local ip
 		browserSync: {
 			server: { baseDir: './' },
 			// "proxy": "192.168.0.1:8080", // or en.name.local:8080
