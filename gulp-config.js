@@ -8,8 +8,15 @@ module.exports = (function() {
 			'jquery'
 		],
 
-		// TODO: browserSync options
-		browserSync: {},
+		browserSync: {
+			server: { baseDir: './' },
+			// "proxy": "192.168.0.1:8080", // or en.name.local:8080
+			// "host": "192.168.0.1",
+
+			open: false,
+			notify: false,
+			browser: ['google chrome']
+		},
 
 		// --------------------------------------------------------- //
 		// YOU PROBABLY DON'T NEED TO CHANGE ANYTHING PAST THIS LINE //
@@ -50,11 +57,9 @@ module.exports = (function() {
 		autoprefixer: options.autoprefixer,
 
 		browserSync: {
-			// proxy: 'en.name.local:8080',
-			// host: '192.168.0.1',
-
 			open: false,
 			notify: false,
+			debugInfo: false,
 			server: { baseDir: './' },
 			browser: ['google chrome']
 		}

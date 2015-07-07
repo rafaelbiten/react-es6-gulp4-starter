@@ -1,35 +1,50 @@
 var gulp		= require('gulp');
-var args		= require('yargs').argv;
 var babelify	= require('babelify');
 var browserify	= require('browserify');
-var browserSync	= require('browser-sync');
+var bsync		= require('browser-sync');
+var production	= require('yargs').argv.prod;
 var source		= require('vinyl-source-stream');
 var buffer		= require('vinyl-buffer');
 var $			= require('gulp-load-plugins')();
-var config		= require('./gulp.config.js');
 
-/* SCRIPTS
+var config		= require('./gulp-config.js');
+
+/* STYLES
  * ------------------------------------------------------------------ */
 
-	// js: vendors' bundle
-	gulp.task('vendors', function() {
+var styles = {
+	main: function styles() {
+		return gulp.src(config.paths.src.styles + '**/*.scss')
+			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.init() ))
+			.pipe($.sass().on('error', $.sass.logError))
+			.pipe($.autoprefixer(config.autoprefixer))
+			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.write() ))
+
+					// run gulp with --prod flag
+					.pipe($.if( production, $.combineMq() ))
+					.pipe($.if( production, $.minifyCss() ))
+					.pipe($.if( production, $.stripCssComments() ))
+
+			.pipe(gulp.dest(config.paths.dist.styles))
+			.pipe(bsync.reload({stream: true}));
+		}
+};
+
+var scripts = {
+	vendors: function vendors() {
 		var stream = browserify({
 				debug: false,
 				require: config.vendors
 			});
 
-		stream
+		return stream
 			.bundle()
 			.pipe(source('vendors.js'))
 			.pipe(buffer())
 			.pipe($.uglify())
 			.pipe(gulp.dest(config.paths.dist.scripts));
-
-		return stream;
-	});
-
-	// js: main bundle
-	gulp.task('scripts', function() {
+	},
+	main: function scripts() {
 		var stream = browserify({
 				fullPaths: false,
 				entries: 'assets/src/scripts/main.js',
@@ -42,77 +57,51 @@ var config		= require('./gulp.config.js');
 			stream.external(vendor);
 		});
 
-		stream
+		return stream
 			.transform(babelify)
 			.bundle().on('error', errorHandler.bind(this))
 			.pipe(source('main.js'))
 			.pipe(gulp.dest(config.paths.dist.scripts))
-			.pipe(browserSync.reload({stream: true, once: true}));
+			.pipe(bsync.reload({stream: true, once: true}));
+	},
+	concat: function concat() {
+		if (!production) { return false; }
 
-		return stream;
-	});
+		var source = gulp.src([
+				config.paths.dist.scripts + 'vendors.js',
+				config.paths.dist.scripts + 'main.js'
+			]);
 
-/* STYLES
- * ------------------------------------------------------------------ */
+		return source
+			.pipe($.concat('app.min.js'))
+			.pipe($.uglify())
+			.pipe(gulp.dest(config.paths.dist.scripts));
+	}
+}
 
-	gulp.task('styles', function() {
-		return gulp.src(config.paths.src.styles + '**/*.scss')
-			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.init() ))
-			.pipe($.sass().on('error', $.sass.logError))
-			.pipe($.autoprefixer(config.autoprefixer))
-			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.write() ))
+function watch() {
+	gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
+	gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
+}
 
-				// run gulp with --prod flag
-				.pipe($.if( args.prod, $.combineMq() ))
-				.pipe($.if( args.prod, $.minifyCss() ))
-				.pipe($.if( args.prod, $.stripCssComments() ))
+function browserSync() {
+	bsync.init(config.browserSync);
+}
 
-			.pipe(gulp.dest(config.paths.dist.styles))
-			.pipe(browserSync.reload({stream: true}));
-	});
+gulp.task('serve', gulp.series(
+	gulp.parallel(scripts.vendors, scripts.main, styles.main),
+	gulp.parallel(browserSync, watch)
+));
 
+gulp.task(watch);
 
-/* SERVE
- * ------------------------------------------------------------------ */
-
-	gulp.task('serve', ['vendors', 'scripts', 'styles'], function() {
-		browserSync(config.browserSync);
-	});
-
-/* WATCH
- * ------------------------------------------------------------------ */
-
-	gulp.task('watch', function() {
-		gulp.watch(config.paths.src.styles + '**/*.*', ['styles']);
-		gulp.watch(config.paths.src.scripts + '**/*.*', ['scripts']);
-	});
-
-/* BUILD
- * ------------------------------------------------------------------ */
-
-	// gulp.task('build', ['vendors', 'scripts', 'styles'], function() {
-
-	// 	// set scripts for production
-	// 	gulp.src([	config.paths.dist.scripts + 'vendors.js',
-	// 				config.paths.dist.scripts + 'main.js' ])
-	// 		.pipe($.concat('all.js'))
-	// 		.pipe($.uglify())
-	// 		.pipe(gulp.dest(config.paths.dist.scripts));
-
-	// 	// TODO CSS:	combineMq, minifyCSS
-	// 	// TODO JS:		concat, minify and gulp-inject on HTML
-	// });
-
-
-/* MAIN TASKS
- * ------------------------------------------------------------------ */
-
-	// default
-	gulp.task('default', ['serve', 'watch']);
-
-/**********************************************************************/
+gulp.task('build', gulp.series(
+	gulp.parallel(scripts.vendors, scripts.main),
+	scripts.concat
+));
 
 /* helper functions */
 function errorHandler(error) {
 	console.log('Error: ' + error.message);
 }
+

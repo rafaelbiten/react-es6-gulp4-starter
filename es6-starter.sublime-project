@@ -1,0 +1,25 @@
+{
+	"folders":
+	[
+		{
+			"name": "ROOT",
+			"path": "."
+		},
+		{
+			"name": "/dist",
+			"path": "./assets/dist/"
+		},
+		{
+			"name": "/source",
+			"path": "./assets/src/"
+		},
+		{
+			"name": "/styles",
+			"path": "./assets/src/styles/"
+		},
+		{
+			"name": "/scripts",
+			"path": "./assets/src/scripts/"
+		}
+	]
+}
