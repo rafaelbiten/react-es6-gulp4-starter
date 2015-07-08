@@ -9,7 +9,7 @@ var $			= require('gulp-load-plugins')();
 
 var config		= require('./gulp-config.js');
 
-/* STYLES
+/* STYLES TASKS
  * ------------------------------------------------------------------ */
 
 var styles = {
@@ -29,6 +29,9 @@ var styles = {
 			.pipe(bsync.reload({stream: true}));
 		}
 };
+
+/* SCRIPTS TASKS
+ * ------------------------------------------------------------------ */
 
 var scripts = {
 	vendors: function vendors() {
@@ -77,10 +80,10 @@ var scripts = {
 			.pipe($.uglify())
 			.pipe(gulp.dest(config.paths.dist.scripts));
 	}
-}
+};
 
 function watch() {
-	gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
+	gulp.watch(config.paths.src.styles + '**/*.scss', styles.main);
 	gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
 }
 

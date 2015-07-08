@@ -49,28 +49,21 @@ module.exports = (function() {
 	};
 
 	return {
-		paths: options.paths,
-		vendors: options.vendors,
-		sourcemaps: options.sourcemaps,
-		extensions: options.extensions,
-		autoprefixer: options.autoprefixer,
-
-		browserSync: {
-			open: false,
-			notify: false,
-			debugInfo: false,
-			server: { baseDir: './' },
-			browser: ['google chrome']
-		}
+		vendors:		options.vendors,
+		browserSync:	options.browserSync,
+		sourcemaps:		options.sourcemaps,
+		extensions:		options.extensions,
+		autoprefixer:	options.autoprefixer,
+		paths:			options.paths
 	};
-
-	/* helper functions */
-	function pathsTo(path) {
-		return {
-			styles:		'assets/' + path + '/styles/',
-			scripts:	'assets/' + path + '/scripts/',
-			fonts:		'assets/' + path + '/fonts/',
-			images:		'assets/' + path + '/images/'
-		};
-	}
 }());
+
+/* helper functions */
+function pathsTo(path) {
+	return {
+		styles:		'assets/' + path + '/styles/',
+		scripts:	'assets/' + path + '/scripts/',
+		fonts:		'assets/' + path + '/fonts/',
+		images:		'assets/' + path + '/images/'
+	};
+}
