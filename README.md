@@ -1,33 +1,35 @@
-# es6_starter
-Starter kit features:
+# es6_( babel react )_starter
+#### Starter kit features:
 
-- Gulp 4
-- Transpile ES6 (ES2015?) to ES5 with Babel / babelify
-- Is 'React friendly', compiling jsx into js files
-- Uses ES6 default Module loader
-- Script vendors are loaded directly from package.json
+- Transpiles ES6 (ES2015) to ES5 with [Babel](https://babeljs.io) / [Babelify](https://www.npmjs.com/package/babelify);
+- Since [Babel :heart: React](http://babeljs.io/blog/2015/02/23/babel-loves-react/), this **Starter** is also 'React friendly';
+- Encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html) to 'modularize' scripts;
+- Vendors scripts are loaded directly from package.json;
+- Uses SCSS for styles and compiles it into CSS;
+- Autoprefixes the styles and combines its media queries;
+- For now it only watches for styles and scripts changes;
 
-## Intro
-...
+------
 
-## TODO
-- Write about how everything works, options, etc...
+#### Gulp 4
+This starter uses Gulp 4. To install it globally, uninstall your current version of Gulp
+with ``` $ npm uninstall -g gulp ``` and install the new Gulp 4 CLI globally with
+``` $ npm install -g gulpjs/gulp.git#4.0 ```.
 
-## Gulp 4
-This starter uses Gulp 4, but if you don't want to install Gulp 4 CLI globally, you can simply run:
-
-``` $ npm install # to install all dependencies ```
-
-and use
-
-``` $ npm run gulp {task-name} ```
-
-to run Gulp with your local devDependency, so you don't have to install it globally.
-
-TODO: (better explain how to do this) If you do want to install Gulp 4 globally... you may need to 'sudo' these commands.
-
-``` $ npm uninstall -g gulp ```
-``` $ npm install -g gulpjs/gulp.git#4.0 ```
+**note:** you may need to sudo any command using the `-g` flag.
 
 
+If you don't want to mess with your current version of Gulp, no problem. Just do a
+``` $ npm install ``` to install all dependencies and use your local version of Gulp with
+``` $ npm run gulp {task-name} ```.
 
+To list all available tasks, use ``` gulp --tasks-simple ```.
+To see a tree of all tasks and its dependencies, run ``` gulp --tasks ```
+
+#### TODO
+- Write a proper README file explaining everything that's already working;
+- Implements a complete build process (and inject final files into the base template);
+- Account for a `views` folder;
+- Watch for changes on base template / views;
+- Take care of images, svgs, etc...
+- What else?

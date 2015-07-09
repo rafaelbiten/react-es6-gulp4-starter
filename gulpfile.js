@@ -7,7 +7,9 @@ var source		= require('vinyl-source-stream');
 var buffer		= require('vinyl-buffer');
 var $			= require('gulp-load-plugins')();
 
-var config		= require('./gulp-config.js');
+var config;
+	try { config = require('./gulp-user-config.js'); }
+	catch (e) { config = require('./gulp-project-config.js'); } // e.code === MODULE_NOT_FOUND
 
 /* STYLES TASKS
  * ------------------------------------------------------------------ */
