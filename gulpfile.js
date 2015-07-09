@@ -23,7 +23,7 @@ var styles = {
 			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.write() ))
 
 					// run gulp with --prod flag
-					.pipe($.if( production, $.combineMq() ))
+					.pipe($.if( production, $.combineMq(config.combineMq) ))
 					.pipe($.if( production, $.minifyCss() ))
 					.pipe($.if( production, $.stripCssComments() ))
 

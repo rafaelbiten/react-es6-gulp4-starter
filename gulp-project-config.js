@@ -22,6 +22,8 @@ module.exports = (function() {
 			]
 		},
 
+		combineMq: { beautify: false },
+
 		// by default it assumes folders for styles, scripts, fonts and images
 		// ie.: path.src.styles will return 'assets/src/styles'
 		// check 'pathTo' function to customize the name of folders and paths
