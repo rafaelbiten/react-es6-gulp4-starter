@@ -16,7 +16,7 @@ This starter uses Gulp 4. To install it globally, uninstall your current version
 with ``` $ npm uninstall -g gulp ``` and install the new Gulp 4 CLI globally with
 ``` $ npm install -g gulpjs/gulp.git#4.0 ```.
 
-**note:** you may need to sudo any command using the `-g` flag.
+**note:** you may need to `sudo` any command that's using the `-g` flag.
 
 
 If you don't want to mess with your current version of Gulp, no problem. Just do a
