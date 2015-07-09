@@ -3,5 +3,7 @@
 
 npm-debug.log
 
+gulp-user-config.js
+
 node_modules
 assets/dist
