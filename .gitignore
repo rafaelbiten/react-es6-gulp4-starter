@@ -4,6 +4,7 @@
 npm-debug.log
 
 gulp-user-config.js
+.sublime-workspace
 
 node_modules
 assets/dist
