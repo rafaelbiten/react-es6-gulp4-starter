@@ -7,13 +7,18 @@ module.exports = (function() {
 
 		// autoprefixer
 		autoprefixer: {
-			support: [
-				'last 2 version',
-				'ie >= 8',
-				'safari >= 6',
-				'ios >= 6',
-				'android >= 4',
-				'bb >= 7'
+			browsers: [
+				'> 1%',
+				'last 2 versions',
+
+				'Opera 12.1',
+				'Firefox ESR',
+				'Safari >= 6',
+				'Explorer >= 8',
+
+				'iOS >= 6',
+				'Android >= 4',
+				'BlackBerry >= 7'
 			]
 		},
 
@@ -43,7 +48,7 @@ module.exports = (function() {
 	 * ------------------------------------------------------------------- */
 
 		browserSync: {
-			open: false,
+			open: true,
 			notify: false,
 			server: { baseDir: './' },
 			browser: ['google chrome']
