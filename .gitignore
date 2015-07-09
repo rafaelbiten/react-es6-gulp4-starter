@@ -3,8 +3,18 @@
 
 npm-debug.log
 
-gulp-user-config.js
-.sublime-workspace
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+.vagrant/
 
 node_modules
+
+
 assets/dist
+gulp-user-config.js
