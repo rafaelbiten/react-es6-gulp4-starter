@@ -93,6 +93,11 @@ function browserSync() {
 	bsync.init(config.browserSync);
 }
 
+gulp.task('test', function() {
+	console.log('modernizr: ', config.modernizr);
+	console.log('vendors: ', config.vendors);
+});
+
 gulp.task('serve', gulp.series(
 	gulp.parallel(scripts.vendors, scripts.main, styles.main),
 	gulp.parallel(browserSync, watch)

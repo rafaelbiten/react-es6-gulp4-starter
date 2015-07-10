@@ -50,6 +50,10 @@ module.exports = (function() {
 		// and they will be compiled into vendors.js
 		vendors: Object.keys(require('./package').dependencies),
 
+		// TODO: Modernizr
+		// use helper function to check for modernizr on the project
+		modernizr: '',
+
 		// allowed extensions for scripts
 		extensions:		[ '.js', '.jsx', '.es' ],
 
