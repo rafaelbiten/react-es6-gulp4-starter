@@ -22,7 +22,17 @@ module.exports = (function() {
 			]
 		},
 
+		// combine media queries
 		combineMq: { beautify: false },
+
+		// uglify
+		uglify: {
+			compress: {
+				pure_funcs: [],
+				drop_console: true,
+				drop_debugger: true
+			}
+		},
 
 		// by default it assumes folders for styles, scripts, fonts and images
 		// ie.: path.src.styles will return 'assets/src/styles'

@@ -46,7 +46,7 @@ var scripts = {
 			.bundle()
 			.pipe(source('vendors.js'))
 			.pipe(buffer())
-			.pipe($.uglify())
+			.pipe($.uglify(config.uglify))
 			.pipe(gulp.dest(config.paths.dist.scripts));
 	},
 	main: function scripts() {
@@ -79,7 +79,7 @@ var scripts = {
 
 		return source
 			.pipe($.concat('app.min.js'))
-			.pipe($.uglify())
+			.pipe($.uglify(config.uglify))
 			.pipe(gulp.dest(config.paths.dist.scripts));
 	}
 };
