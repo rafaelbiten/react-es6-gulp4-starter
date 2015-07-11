@@ -50,7 +50,7 @@ var scripts = {
 			.bundle()
 			.pipe(source('vendors.js'))
 			.pipe(buffer())
-			.pipe($.uglify(config.uglify))
+			.pipe($.if( production, $.uglify(config.uglify) ))
 			.pipe(gulp.dest(config.paths.dist.scripts));
 	},
 	main: function scripts() {
@@ -85,6 +85,13 @@ var scripts = {
 			.pipe($.concat('scripts.min.js'))
 			.pipe($.uglify(config.uglify))
 			.pipe(gulp.dest(config.paths.dist.scripts));
+	},
+	modernizr: function modernizr(done) {
+		if (!config.paths.src.modernizr) { done(); return; }
+
+		return gulp.src(config.paths.src.modernizr + '*.js')
+			.pipe($.if( production, $.uglify(config.uglify) ))
+			.pipe(gulp.dest(config.paths.dist.scripts));
 	}
 };
 
@@ -103,13 +110,15 @@ var base = {
 				'scripts': [
 					config.paths.dist.scripts + 'vendors.js',
 					config.paths.dist.scripts + 'main.js'
-				]
+				],
+				'modernizr': config.paths.dist.scripts + 'modernizr.js'
 			}) ))
 
 			// run gulp with --prod flag to use minified versions
 			.pipe( $.if( production, $.htmlReplace({
 				'styles': config.paths.dist.styles + 'styles.min.css',
-				'scripts': config.paths.dist.scripts + 'scripts.min.js'
+				'scripts': config.paths.dist.scripts + 'scripts.min.js',
+				'modernizr': config.paths.dist.scripts + 'modernizr.js'
 			})))
 
 			// base.src becomes index.{extension} - config.path.source
@@ -145,6 +154,7 @@ gulp.task('serve',
 		gulp.parallel(
 			base.scaffold,
 
+			scripts.modernizr,
 			scripts.vendors,
 			scripts.main,
 

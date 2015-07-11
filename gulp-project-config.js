@@ -54,7 +54,7 @@ module.exports = (function() {
 		vendors: Object.keys(require('./package').dependencies),
 
 		// allowed extensions for scripts
-		extensions:		[ '.js', '.jsx', '.es' ],
+		extensions: [ '.js', '.jsx', '.es' ],
 
 
 	/* THESE ARE THE DEFAULT USER SPECIFIC OPTIONS
@@ -93,8 +93,8 @@ function pathsTo(path) {
 		sprites:	'assets/' + path + '/sprites/',
 		svgs:		'assets/' + path + '/svgs/',
 
-		// if using modernizr, keep its folder and manually save
-		// a custom build of it inside assets/src/modernizr
+		// use the provided (bare bones) modernizr file
+		// or replace it with a custom one specific to the project
 		// by default the Starter will automatically inject it to the header
 		modernizr:	'assets/' + path + '/modernizr/'
 	};
