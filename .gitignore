@@ -11,6 +11,8 @@ npm-debug.log
 # workspace files are user-specific
 *.sublime-workspace
 
+.index.*
+
 .vagrant/
 
 node_modules
