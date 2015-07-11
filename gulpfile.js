@@ -5,11 +5,13 @@ var bsync		= require('browser-sync');
 var production	= require('yargs').argv.prod;
 var source		= require('vinyl-source-stream');
 var buffer		= require('vinyl-buffer');
+var del			= require('del');
 var $			= require('gulp-load-plugins')();
 
 var config;
 	try { config = require('./gulp-user-config.js'); }
 	catch (e) { config = require('./gulp-project-config.js'); } // e.code === MODULE_NOT_FOUND
+
 
 /* STYLES TASKS
  * ------------------------------------------------------------------ */
@@ -26,11 +28,13 @@ var styles = {
 					.pipe($.if( production, $.combineMq(config.combineMq) ))
 					.pipe($.if( production, $.minifyCss() ))
 					.pipe($.if( production, $.stripCssComments() ))
+					.pipe($.if( production, $.rename('styles.min.css') ))
 
 			.pipe(gulp.dest(config.paths.dist.styles))
 			.pipe(bsync.reload({stream: true}));
 		}
 };
+
 
 /* SCRIPTS TASKS
  * ------------------------------------------------------------------ */
@@ -69,8 +73,8 @@ var scripts = {
 			.pipe(gulp.dest(config.paths.dist.scripts))
 			.pipe(bsync.reload({stream: true, once: true}));
 	},
-	concat: function concat() {
-		if (!production) { return false; }
+	concat: function concat(done) {
+		if (!production) { done(); return; }
 
 		var source = gulp.src([
 				config.paths.dist.scripts + 'vendors.js',
@@ -78,36 +82,83 @@ var scripts = {
 			]);
 
 		return source
-			.pipe($.concat('app.min.js'))
+			.pipe($.concat('scripts.min.js'))
 			.pipe($.uglify(config.uglify))
 			.pipe(gulp.dest(config.paths.dist.scripts));
 	}
 };
 
-function watch() {
-	gulp.watch(config.paths.src.styles + '**/*.scss', styles.main);
-	gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
-}
 
-function browserSync() {
-	bsync.init(config.browserSync);
-}
+/* BASE TASKS
+ * ------------------------------------------------------------------ */
 
-gulp.task('test', function() {
-	console.log('modernizr: ', config.modernizr);
-	console.log('vendors: ', config.vendors);
-});
+var base = {
+	scaffold: function scaffold() {
+		return gulp.src(config.paths.source, { base: './' })
 
-gulp.task('serve', gulp.series(
-	gulp.parallel(scripts.vendors, scripts.main, styles.main),
-	gulp.parallel(browserSync, watch)
-));
+			// normal flow, with vendors and main
+			// in two different files to speed up the task
+			.pipe( $.if( !production, $.htmlReplace({
+				'styles': config.paths.dist.styles + 'main.css',
+				'scripts': [
+					config.paths.dist.scripts + 'vendors.js',
+					config.paths.dist.scripts + 'main.js'
+				]
+			}) ))
 
-gulp.task(watch);
+			// run gulp with --prod flag to use minified versions
+			.pipe( $.if( production, $.htmlReplace({
+				'styles': config.paths.dist.styles + 'styles.min.css',
+				'scripts': config.paths.dist.scripts + 'scripts.min.js'
+			})))
 
-gulp.task('build', gulp.series(
-	gulp.parallel(scripts.vendors, scripts.main),
-	scripts.concat
+			// base.src becomes index.{extension} - config.path.source
+			.pipe($.rename(config.paths.base))
+			.pipe(gulp.dest('.'));
+	},
+	clean: function clean(done) {
+		if (!production) { done(); return; }
+
+		// TODO: FINISH THE CLEAN TASK
+		del([
+			config.paths.dist.scripts + 'main.js',
+			config.paths.dist.scripts + 'vendors.js',
+
+			'!' + config.paths.dist.scripts + 'scripts.min.js',
+			'!' + config.paths.dist.scripts + 'modernizr.js'
+		]);
+
+		done();
+	},
+	watch: function watch() {
+		if(!production) {
+			gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
+			gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
+		}
+	},
+	browserSync: function browserSync() {
+		bsync.init(config.browserSync);
+	}
+};
+
+gulp.task('serve',
+	gulp.series(
+		gulp.parallel(
+			base.scaffold,
+
+			scripts.vendors,
+			scripts.main,
+
+			styles.main
+		),
+
+		scripts.concat,
+
+		gulp.parallel(
+			base.browserSync,
+			base.watch,
+			base.clean
+		)
 ));
 
 /* helper functions */

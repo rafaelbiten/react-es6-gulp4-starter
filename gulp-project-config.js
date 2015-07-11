@@ -34,14 +34,17 @@ module.exports = (function() {
 			}
 		},
 
-		// by default it assumes folders for styles, scripts, fonts and images
-		// ie.: path.src.styles will return 'assets/src/styles'
-		// check 'pathTo' function to customize the name of folders and paths
 		paths: {
+			// check 'pathTo' function
+			// to customize default folders and paths
 			src: pathsTo('src'),
-			dist: pathsTo('dist')
-		},
+			dist: pathsTo('dist'),
 
+			// change 'base' to the name and extension of the project entry point
+			// ie.: index.html, index.php, index.php.twig
+			source: 'base.src',
+			base: 'index.html'
+		},
 
 	/* YOU SHOULDN'T NEED TO TOUCH ANYTHING BELOW THIS LINE
 	 * ------------------------------------------------------------------- */
@@ -50,17 +53,13 @@ module.exports = (function() {
 		// and they will be compiled into vendors.js
 		vendors: Object.keys(require('./package').dependencies),
 
-		// TODO: Modernizr
-		// use helper function to check for modernizr on the project
-		modernizr: '',
-
 		// allowed extensions for scripts
 		extensions:		[ '.js', '.jsx', '.es' ],
 
 
 	/* THESE ARE THE DEFAULT USER SPECIFIC OPTIONS
 	 * if you'd like to change something, please create a
-	 * gulp-user-config.js file from gulp-user-config-sample.js
+	 * gulp-user-config.js file based on gulp-user-config-sample.js
 	 * ------------------------------------------------------------------- */
 
 		browserSync: {
@@ -79,10 +78,24 @@ module.exports = (function() {
 
 // helper functions
 function pathsTo(path) {
+
+	// by default the Starter assumes folders for
+	// styles, scripts, fonts images, sprites and svgs
+	// ie.: calling path.src.styles will return 'assets/src/styles'
+
 	return {
 		styles:		'assets/' + path + '/styles/',
 		scripts:	'assets/' + path + '/scripts/',
+
 		fonts:		'assets/' + path + '/fonts/',
-		images:		'assets/' + path + '/images/'
+
+		images:		'assets/' + path + '/images/',
+		sprites:	'assets/' + path + '/sprites/',
+		svgs:		'assets/' + path + '/svgs/',
+
+		// if using modernizr, keep its folder and manually save
+		// a custom build of it inside assets/src/modernizr
+		// by default the Starter will automatically inject it to the header
+		modernizr:	'assets/' + path + '/modernizr/'
 	};
 }
