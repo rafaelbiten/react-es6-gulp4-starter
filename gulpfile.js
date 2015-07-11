@@ -119,7 +119,6 @@ var base = {
 	clean: function clean(done) {
 		if (!production) { done(); return; }
 
-		// TODO: FINISH THE CLEAN TASK
 		del([
 			config.paths.dist.scripts + 'main.js',
 			config.paths.dist.scripts + 'vendors.js',
