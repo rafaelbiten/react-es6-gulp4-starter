@@ -1,22 +1,27 @@
+# OSX specifics
 .DS_Store
 .sass-cache
 
-npm-debug.log
+# workspace files are user-specific
+*.sublime-workspace
 
 # cache files for sublime text
 *.tmlanguage.cache
 *.tmPreferences.cache
 *.stTheme.cache
 
-# workspace files are user-specific
-*.sublime-workspace
-
-/index.*
-
+# vagrant files
 .vagrant/
 
+# node modules & debug
 node_modules
+npm-debug.log
 
+# root 'index.{ext}' files
+/index.*
 
+# ignore dist folder
 assets/dist
+
+# ignore user specific configs
 gulp-user-config.js
