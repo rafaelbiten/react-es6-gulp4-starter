@@ -8,12 +8,68 @@ var buffer		= require('vinyl-buffer');
 var del			= require('del');
 var $			= require('gulp-load-plugins')();
 
+var cacheBuster = '?v=' + Math.round(new Date().getTime() / 1000);
+
 var config;
 	try { config = require('./gulp-user-config.js'); }
 	catch (e) { config = require('./gulp-project-config.js'); } // e.code === MODULE_NOT_FOUND
 
 
-/* STYLES TASKS
+/* BASE TASKS
+ * ------------------------------------------------------------------ */
+
+var base = {
+	scaffold: function scaffold() {
+		return gulp.src(config.paths.source, { base: './' })
+
+			// normal flow, with vendors and main
+			// in two different files to speed up the task
+			.pipe( $.if( !production, $.htmlReplace({
+				'styles': config.paths.dist.styles + 'main.css',
+				'scripts': [
+					config.paths.dist.scripts + 'vendors.js',
+					config.paths.dist.scripts + 'main.js'
+				],
+				'modernizr': config.paths.dist.scripts + 'modernizr.js'
+			}) ))
+
+			// run gulp with --prod flag to use minified versions
+			.pipe( $.if( production, $.htmlReplace({
+				'styles': config.paths.dist.styles + 'styles.min.css' + cacheBuster,
+				'scripts': config.paths.dist.scripts + 'scripts.min.js' + cacheBuster,
+				'modernizr': config.paths.dist.scripts + 'modernizr.js'
+			})))
+
+			// base.src becomes index.{extension} - config.path.source
+			.pipe($.rename(config.paths.base))
+			.pipe(gulp.dest('.'));
+	},
+	clean: function clean(done) {
+		if (!production) { done(); return; }
+
+		del([
+			config.paths.dist.scripts + 'main.js',
+			config.paths.dist.scripts + 'vendors.js',
+
+			'!' + config.paths.dist.scripts + 'scripts.min.js',
+			'!' + config.paths.dist.scripts + 'modernizr.js'
+		]);
+
+		done();
+	},
+	watch: function watch() {
+		if(!production) {
+			gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
+			gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
+		}
+	},
+	browserSync: function browserSync() {
+		bsync.init(config.browserSync);
+	}
+};
+
+
+/* STYLES TASK
  * ------------------------------------------------------------------ */
 
 var styles = {
@@ -95,59 +151,21 @@ var scripts = {
 	}
 };
 
-
-/* BASE TASKS
+/* FONTS TASK
  * ------------------------------------------------------------------ */
 
-var base = {
-	scaffold: function scaffold() {
-		return gulp.src(config.paths.source, { base: './' })
 
-			// normal flow, with vendors and main
-			// in two different files to speed up the task
-			.pipe( $.if( !production, $.htmlReplace({
-				'styles': config.paths.dist.styles + 'main.css',
-				'scripts': [
-					config.paths.dist.scripts + 'vendors.js',
-					config.paths.dist.scripts + 'main.js'
-				],
-				'modernizr': config.paths.dist.scripts + 'modernizr.js'
-			}) ))
+/* IMAGES TASK
+ * ------------------------------------------------------------------ */
 
-			// run gulp with --prod flag to use minified versions
-			.pipe( $.if( production, $.htmlReplace({
-				'styles': config.paths.dist.styles + 'styles.min.css',
-				'scripts': config.paths.dist.scripts + 'scripts.min.js',
-				'modernizr': config.paths.dist.scripts + 'modernizr.js'
-			})))
 
-			// base.src becomes index.{extension} - config.path.source
-			.pipe($.rename(config.paths.base))
-			.pipe(gulp.dest('.'));
-	},
-	clean: function clean(done) {
-		if (!production) { done(); return; }
+/* SPRITES TASKS
+ * ------------------------------------------------------------------ */
 
-		del([
-			config.paths.dist.scripts + 'main.js',
-			config.paths.dist.scripts + 'vendors.js',
 
-			'!' + config.paths.dist.scripts + 'scripts.min.js',
-			'!' + config.paths.dist.scripts + 'modernizr.js'
-		]);
+/* SVG TASK
+ * ------------------------------------------------------------------ */
 
-		done();
-	},
-	watch: function watch() {
-		if(!production) {
-			gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
-			gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
-		}
-	},
-	browserSync: function browserSync() {
-		bsync.init(config.browserSync);
-	}
-};
 
 gulp.task('serve',
 	gulp.series(
@@ -174,4 +192,3 @@ gulp.task('serve',
 function errorHandler(error) {
 	console.log('Error: ' + error.message);
 }
-
