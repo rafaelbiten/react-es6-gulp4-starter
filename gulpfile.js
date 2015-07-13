@@ -153,7 +153,12 @@ var scripts = {
 
 /* FONTS TASK
  * ------------------------------------------------------------------ */
-
+var fonts = {
+	main: function fonts() {
+		return gulp.src(config.paths.src.fonts + '**/*.{eot,svg,ttf,woff,woff2}')
+			.pipe(gulp.dest(config.paths.dist.fonts));
+	}
+}
 
 /* IMAGES TASK
  * ------------------------------------------------------------------ */
@@ -171,11 +176,10 @@ gulp.task('serve',
 	gulp.series(
 		gulp.parallel(
 			base.scaffold,
-
 			scripts.modernizr,
 			scripts.vendors,
 			scripts.main,
-
+			fonts.main,
 			styles.main
 		),
 

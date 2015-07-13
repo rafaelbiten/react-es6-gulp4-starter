@@ -1,9 +1,11 @@
+@import 'fonts';
 @import 'modules';
 
 *, *:before, *:after { box-sizing: border-box; }
 
 body {
 	background-color: gray;
+	font-family: 'droid_sansregular';
 
 	@media (max-width: 600px) {
 		background-color: blue;
