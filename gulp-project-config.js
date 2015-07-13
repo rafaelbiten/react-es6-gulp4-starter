@@ -84,6 +84,8 @@ function pathsTo(path) {
 	// ie.: calling path.src.styles will return 'assets/src/styles'
 
 	return {
+		root:		'assets/' + path + '/',
+
 		styles:		'assets/' + path + '/styles/',
 		scripts:	'assets/' + path + '/scripts/',
 

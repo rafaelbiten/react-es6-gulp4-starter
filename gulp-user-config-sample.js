@@ -3,6 +3,7 @@ var extend = require('lodash').extend;
 
 /* THESE ARE USER SPECIFIC OPTIONS
  * copy the content of this file into a new gulp-user-config.js
+ * ps.: you don't need a copy of this file to work with a new project
  * ------------------------------------------------------------------- */
 
 module.exports = extend(config, {

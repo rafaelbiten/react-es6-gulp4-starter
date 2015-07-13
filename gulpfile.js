@@ -44,18 +44,25 @@ var base = {
 			.pipe($.rename(config.paths.base))
 			.pipe(gulp.dest('.'));
 	},
-	clean: function clean(done) {
-		if (!production) { done(); return; }
+	clean: {
+		pre: function cleanBefore(done) {
+			if (!production) { done(); return; }
+			del(config.paths.dist.root);
+			done();
+		},
+		post: function cleanAfter(done) {
+			if (!production) { done(); return; }
 
-		del([
-			config.paths.dist.scripts + 'main.js',
-			config.paths.dist.scripts + 'vendors.js',
+			del([
+				config.paths.dist.scripts + 'main.js',
+				config.paths.dist.scripts + 'vendors.js',
 
-			'!' + config.paths.dist.scripts + 'scripts.min.js',
-			'!' + config.paths.dist.scripts + 'modernizr.js'
-		]);
+				'!' + config.paths.dist.scripts + 'scripts.min.js',
+				'!' + config.paths.dist.scripts + 'modernizr.js'
+			]);
 
-		done();
+			done();
+		}
 	},
 	watch: function watch() {
 		if(!production) {
@@ -174,8 +181,10 @@ var fonts = {
 
 gulp.task('serve',
 	gulp.series(
+		base.clean.pre,
+		base.scaffold,
+
 		gulp.parallel(
-			base.scaffold,
 			scripts.modernizr,
 			scripts.vendors,
 			scripts.main,
@@ -188,7 +197,7 @@ gulp.task('serve',
 		gulp.parallel(
 			base.browserSync,
 			base.watch,
-			base.clean
+			base.clean.post
 		)
 ));
 
