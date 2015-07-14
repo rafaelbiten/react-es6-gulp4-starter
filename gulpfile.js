@@ -14,51 +14,52 @@ var config;
 	try { config = require('./gulp-user-config.js'); }
 	catch (e) { config = require('./gulp-project-config.js'); } // e.code === MODULE_NOT_FOUND
 
+var paths = config.paths;
 
 /* BASE TASKS
  * ------------------------------------------------------------------ */
 
 var base = {
 	scaffold: function scaffold() {
-		return gulp.src(config.paths.source, { base: './' })
+		return gulp.src(paths.source, { base: './' })
 
 			// normal flow, with vendors and main
 			// in two different files to speed up the task
 			.pipe( $.if( !production, $.htmlReplace({
-				'styles': config.paths.dist.styles + 'main.css',
+				'styles': paths.dist.styles + 'main.css',
 				'scripts': [
-					config.paths.dist.scripts + 'vendors.js',
-					config.paths.dist.scripts + 'main.js'
+					paths.dist.scripts + 'vendors.js',
+					paths.dist.scripts + 'main.js'
 				],
-				'modernizr': config.paths.dist.scripts + 'modernizr.js'
+				'modernizr': paths.dist.scripts + 'modernizr.js'
 			}) ))
 
 			// run gulp with --prod flag to use minified versions
 			.pipe( $.if( production, $.htmlReplace({
-				'styles': config.paths.dist.styles + 'styles.min.css' + cacheBuster,
-				'scripts': config.paths.dist.scripts + 'scripts.min.js' + cacheBuster,
-				'modernizr': config.paths.dist.scripts + 'modernizr.js'
+				'styles': paths.dist.styles + 'styles.min.css' + cacheBuster,
+				'scripts': paths.dist.scripts + 'scripts.min.js' + cacheBuster,
+				'modernizr': paths.dist.scripts + 'modernizr.js'
 			})))
 
 			// base.src becomes index.{extension} - config.path.source
-			.pipe($.rename(config.paths.base))
+			.pipe($.rename(paths.base))
 			.pipe(gulp.dest('.'));
 	},
 	clean: {
 		pre: function cleanBefore(done) {
 			if (!production) { done(); return; }
-			del(config.paths.dist.root);
+			del(paths.dist.root);
 			done();
 		},
 		post: function cleanAfter(done) {
 			if (!production) { done(); return; }
 
 			del([
-				config.paths.dist.scripts + 'main.js',
-				config.paths.dist.scripts + 'vendors.js',
+				paths.dist.scripts + 'main.js',
+				paths.dist.scripts + 'vendors.js',
 
-				'!' + config.paths.dist.scripts + 'scripts.min.js',
-				'!' + config.paths.dist.scripts + 'modernizr.js'
+				'!' + paths.dist.scripts + 'scripts.min.js',
+				'!' + paths.dist.scripts + 'modernizr.js'
 			]);
 
 			done();
@@ -66,8 +67,9 @@ var base = {
 	},
 	watch: function watch() {
 		if(!production) {
-			gulp.watch(config.paths.src.styles + '**/*.*', styles.main);
-			gulp.watch(config.paths.src.scripts + '**/*.*', scripts.main);
+			gulp.watch(paths.src.styles + '**/*', styles.main);
+			gulp.watch(paths.src.scripts + '**/*', scripts.main);
+			gulp.watch(paths.src.images + '**/*', images.main);
 		}
 	},
 	browserSync: function browserSync() {
@@ -81,7 +83,7 @@ var base = {
 
 var styles = {
 	main: function styles() {
-		return gulp.src(config.paths.src.styles + '**/*.scss')
+		return gulp.src(paths.src.styles + '**/*.scss')
 			.pipe($.if( config.sourcemaps.styles, $.sourcemaps.init() ))
 			.pipe($.sass().on('error', $.sass.logError))
 			.pipe($.autoprefixer(config.autoprefixer))
@@ -93,9 +95,9 @@ var styles = {
 					.pipe($.if( production, $.stripCssComments() ))
 					.pipe($.if( production, $.rename('styles.min.css') ))
 
-			.pipe(gulp.dest(config.paths.dist.styles))
+			.pipe(gulp.dest(paths.dist.styles))
 			.pipe(bsync.reload({stream: true}));
-		}
+	}
 };
 
 
@@ -114,7 +116,7 @@ var scripts = {
 			.pipe(source('vendors.js'))
 			.pipe(buffer())
 			.pipe($.if( production, $.uglify(config.uglify) ))
-			.pipe(gulp.dest(config.paths.dist.scripts));
+			.pipe(gulp.dest(paths.dist.scripts));
 	},
 	main: function scripts() {
 		var stream = browserify({
@@ -133,28 +135,28 @@ var scripts = {
 			.transform(babelify)
 			.bundle().on('error', errorHandler.bind(this))
 			.pipe(source('main.js'))
-			.pipe(gulp.dest(config.paths.dist.scripts))
+			.pipe(gulp.dest(paths.dist.scripts))
 			.pipe(bsync.reload({stream: true, once: true}));
 	},
 	concat: function concat(done) {
 		if (!production) { done(); return; }
 
 		var source = gulp.src([
-				config.paths.dist.scripts + 'vendors.js',
-				config.paths.dist.scripts + 'main.js'
+				paths.dist.scripts + 'vendors.js',
+				paths.dist.scripts + 'main.js'
 			]);
 
 		return source
 			.pipe($.concat('scripts.min.js'))
 			.pipe($.uglify(config.uglify))
-			.pipe(gulp.dest(config.paths.dist.scripts));
+			.pipe(gulp.dest(paths.dist.scripts));
 	},
 	modernizr: function modernizr(done) {
-		if (!config.paths.src.modernizr) { done(); return; }
+		if (!paths.src.modernizr) { done(); return; }
 
-		return gulp.src(config.paths.src.modernizr + '*.js')
+		return gulp.src(paths.src.modernizr + '*.js')
 			.pipe($.if( production, $.uglify(config.uglify) ))
-			.pipe(gulp.dest(config.paths.dist.scripts));
+			.pipe(gulp.dest(paths.dist.scripts));
 	}
 };
 
@@ -162,14 +164,21 @@ var scripts = {
  * ------------------------------------------------------------------ */
 var fonts = {
 	main: function fonts() {
-		return gulp.src(config.paths.src.fonts + '**/*.{eot,svg,ttf,woff,woff2}')
-			.pipe(gulp.dest(config.paths.dist.fonts));
+		return gulp.src(paths.src.fonts + '**/*.{eot,svg,ttf,woff,woff2}')
+			.pipe(gulp.dest(paths.dist.fonts));
 	}
 }
 
 /* IMAGES TASK
  * ------------------------------------------------------------------ */
-
+var images = {
+	main: function images() {
+		return gulp.src(paths.src.images + '**/*')
+			.pipe($.changed(paths.dist.images))
+			.pipe($.imagemin(config.imagemin))
+			.pipe(gulp.dest(paths.dist.images));
+	}
+}
 
 /* SPRITES TASKS
  * ------------------------------------------------------------------ */
@@ -185,11 +194,12 @@ gulp.task('serve',
 		base.scaffold,
 
 		gulp.parallel(
-			scripts.modernizr,
-			scripts.vendors,
-			scripts.main,
 			fonts.main,
-			styles.main
+			images.main,
+			styles.main,
+			scripts.vendors,
+			scripts.modernizr,
+			scripts.main
 		),
 
 		scripts.concat,

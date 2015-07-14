@@ -34,6 +34,14 @@ module.exports = (function() {
 			}
 		},
 
+		// imagemin
+		imagemin: {
+			interlaced: true,
+			progressive: true,
+			optimizationLevel: 3,
+			svgoPlugins: [{removeViewBox: false}]
+		},
+
 		paths: {
 			// check 'pathTo' function
 			// to customize default folders and paths
