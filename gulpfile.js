@@ -184,7 +184,7 @@ var images = {
 	main: function images() {
 		return gulp.src(paths.src.images + '**/*')
 			.pipe($.changed(paths.dist.images))
-			.pipe($.imagemin(config.imagemin))
+			.pipe($.if( production, $.imagemin(config.imagemin) ))
 			.pipe(gulp.dest(paths.dist.images));
 	}
 }
