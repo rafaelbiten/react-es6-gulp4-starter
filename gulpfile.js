@@ -8,6 +8,7 @@ var buffer		= require('vinyl-buffer');
 var del			= require('del');
 var $			= require('gulp-load-plugins')();
 
+var bsyncReload	= bsync.reload;
 var cacheBuster = '?v=' + Math.round(new Date().getTime() / 1000);
 
 var config;
@@ -67,6 +68,11 @@ var base = {
 	},
 	watch: function watch() {
 		if(!production) {
+			gulp.watch(paths.source, gulp.series(
+				base.scaffold,
+				base.reload
+			));
+
 			gulp.watch(paths.src.styles + '**/*', styles.main);
 			gulp.watch(paths.src.scripts + '**/*', scripts.main);
 			gulp.watch(paths.src.images + '**/*', images.main);
@@ -74,6 +80,9 @@ var base = {
 	},
 	browserSync: function browserSync() {
 		bsync.init(config.browserSync);
+	},
+	reload: function reload() {
+		if(!production) { bsyncReload(); }
 	}
 };
 
