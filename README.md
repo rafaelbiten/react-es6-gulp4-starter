@@ -10,19 +10,25 @@
 	- For development, separates vendors on its own file to speed up watch process
 	- For production, concatenates all scripts into one and minifies/uglifies it
 	- For production, 'cache bust' the file
+
 - **Styles**
 	- Uses SCSS for styles and compiles it into CSS with support for sourcemaps
 	- For production, autoprefixes, minifies, strip comments and combines MQ's
 	- For production, 'cache bust' the file
+
 - **Fonts**
 	- Copy fonts to dist folder removing all unnecessary files
+
 - **Images**
 	- For development, only copy 'new' images and watch folder for new images
 	- For production, will copy all images while reducing image sizes
+
 - **Sprites**
 	- TODO...
+
 - **SVG**
 	- TODO...
+
 - **Watchers**
 	- *For development only*
 	- For now will watch for changes on styles, scripts, images and base.src file
@@ -32,10 +38,12 @@
 #### Important files:
 - **gulpfile.src**
 	- You shouldn't need to touch this file
-	- right proper documentation for this...
+	- write proper documentation for this...
+
 - **gulp-user-config-sample.js**
 	- If you like the default user configs, you can ignore this file/step
-	- right proper documentation for this...
+	- write proper documentation for this...
+
 - **base.src**
 	- You'll notice that there's no index.[html, php, php.twig] file
 	- `base.src` will be compiled into your base.[extension]
