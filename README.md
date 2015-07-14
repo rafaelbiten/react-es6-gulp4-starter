@@ -66,7 +66,7 @@ If you list all tasks now you may get frustrated because there's really only one
 
 The exposed task is the 'Serve' tasks that can be run with `gulp serve`.
 This task also accepts a `--prod` flag that will change its behaviour and prepare everything for production.
-To run the 'Serve' task passing the flag, use `$ gulp serve --prod`.
+To run the 'Serve' task passing the flag, use `$ gulp serve --prod`, or `$ npm run gulp serve -- --prod` if you're using your local version of Gulp.
 
 #### TODO
 - Account for a `views` folder;
