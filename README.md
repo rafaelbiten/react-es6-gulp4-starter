@@ -1,82 +1,82 @@
 # es6_( babel react )_starter
-#### Starter kit features:
 
-- **Scripts**
-	- Transpiles ES6 (aka ES2015) to ES5 with [Babel](https://babeljs.io) / [Babelify](https://www.npmjs.com/package/babelify)
-	- Since [Babel :heart: React](http://babeljs.io/blog/2015/02/23/babel-loves-react/), this **Starter** is also 'React friendly'
-	- Encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html) and `import` to 'modularize' scripts
-	- Vendors scripts are loaded directly from package.json
-	- Supports custom Modernizr, loaded by default inside the `<head>` tag
-	- For development, separates vendors on its own file to speed up watch process
-	- For production, concatenates all scripts into one and minifies/uglifies it
-	- For production, 'cache bust' the file
+### Quick Start
 
-- **Styles**
-	- Uses SCSS for styles and compiles it into CSS with support for sourcemaps
-	- For production, autoprefixes, minifies, strip comments and combines MQ's
-	- For production, 'cache bust' the file
+1. Download the project and from the root folder run:
+	**`$ npm install`** or **`$ sudo npm install`** if the first command fails
 
-- **Fonts**
-	- Copy fonts to dist folder removing all unnecessary files
+2. When it's done installing all dependencies, from the same root folder run:
+	**`$ npm run gulp serve`** or **`$ npm run gulp serve -- --prod`** for production
 
-- **Images**
-	- For development, only copy 'new' images and watch folder for new images
-	- For production, will copy all images while reducing image sizes
+And that should be it.
 
-- **Sprites**
-	- TODO...
+**Important:** This Starter uses [Gulp 4](https://github.com/gulpjs/gulp/tree/4.0). If you try `$ gulp serve` or `gulp serve --prod` on your `terminal` it won't work unless you have Gulp 4 installed globally on your machine. The command above runs the local version of Gulp installed with `$ npm install`.
 
-- **SVG**
-	- TODO...
+### Gulp Tasks
+To list all available tasks, use `gulp --tasks-simple`.
+To see a tree of all tasks and its dependencies, run `gulp --tasks`
 
-- **Watchers**
-	- *For development only*
-	- For now will watch for changes on styles, scripts, images and base.src file
+The `serve` task is the only task that's currently being exposed to the user and this task can be modified for production passing the `--prod` flag when running Gulp.
 
-------
-
-#### Important files:
+### Important files
 - **gulpfile.src**
 	- You shouldn't need to touch this file
-	- write proper documentation for this...
+	- will write proper documentation for this later...
 
 - **gulp-user-config-sample.js**
 	- If you like the default user configs, you can ignore this file/step
-	- write proper documentation for this...
+	- will write proper documentation for this later...
 
 - **base.src**
 	- You'll notice that there's no index.[html, php, php.twig] file
 	- `base.src` will be compiled into your base.[extension]
 	- Config paths.base inside `gulp-project-config.js` with your base file
 
-------
+### Features
 
-#### Getting Started:
+- **Scripts**
+ES6/ES2015 to ES5 with [Babel](https://babeljs.io/) with sourcemaps, works for [React](https://facebook.github.io/react/) compiling .jsx into .js, encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html), loads vendor scripts from package.json and supports custom Modernizr.
 
-#### Gulp 4
-This starter uses Gulp 4. To install it globally, uninstall your current version of Gulp
-with ``` $ npm uninstall -g gulp ``` and install the new Gulp 4 CLI globally with
-``` $ npm install -g gulpjs/gulp.git#4.0 ```.
+	- **development:**
+	-- watch all files, except vendors' scripts
+	- **production with the `--prod` flag:**
+	-- [concat](https://www.npmjs.com/package/gulp-concat), [uglify](https://www.npmjs.com/package/gulp-uglify) and cache bust
 
-**note:** you may need to `sudo` any command that's using the `-g` flag.
+- **Styles**
+Compiles SCSS to CSS with sourcemaps.
 
+	- **development:**
+	-- watch all files
+	- **production with the `--prod` flag:**
+	-- [autoprefix](https://www.npmjs.com/package/gulp-autoprefixer), [minify](https://www.npmjs.com/package/gulp-sass), [strip comments](https://www.npmjs.com/package/gulp-strip-css-comments), [combines MQ's](https://www.npmjs.com/package/gulp-combine-mq) and cache bust
 
-If you don't want to mess with your current version of Gulp, no problem. Just do a
-``` $ npm install ``` to install all dependencies and use your local version of Gulp with
-``` $ npm run gulp {task-name} ```.
+- **Fonts**
+Copy fonts to `dist` folder excluding unnecessary files
 
-To list all available tasks, use ``` gulp --tasks-simple ```.
-To see a tree of all tasks and its dependencies, run ``` gulp --tasks ```
+- **Images**
+Copy images to `dist` folder
 
-#### Gulp Tasks
+	- **development:**
+	-- watch folder for new images
+	- **production with the `--prod` flag:**
+	-- copy images and tries to [reduce](https://www.npmjs.com/package/gulp-imagemin) their sizes
 
-If you list all tasks now you may get frustrated because there's really only one task that's being exposed to the user and I do believe this might be all you need.
+- **Sprites**
+TODO...
 
-The exposed task is the 'Serve' tasks that can be run with `gulp serve`.
-This task also accepts a `--prod` flag that will change its behaviour and prepare everything for production.
-To run the 'Serve' task passing the flag, use `$ gulp serve --prod`, or `$ npm run gulp serve -- --prod` if you're using your local version of Gulp.
+- **SVG**
+TODO...
+
+----------
+
+#### Installing Gulp 4 globally
+You don't need and probably shouldn't install Gulp 4 globally, but here's how it can be done, for reference:
+`$ npm uninstall -g gulp` to uninstall your current Gulp version
+`$ npm install -g gulpjs/gulp.git#4.0` to install Gulp 4 CLI globally
+
+**note:** you probably need to `sudo` any command that's using the `-g` flag.
 
 #### TODO
 - Account for a `views` folder;
-- Take care of sprites, svgs, etc...
+- sprites and svgs...
 - What else?
