@@ -42,6 +42,19 @@ module.exports = (function() {
 			svgoPlugins: [{removeViewBox: false}]
 		},
 
+		// svgs
+		svgs: {
+			mode: {
+				css: false,
+				inline: true,
+				symbol: true
+			},
+			svg: {
+				xmlDeclaration: false,
+				doctypeDeclaration: false
+			}
+		},
+
 		paths: {
 			// check 'pathTo' function
 			// to customize default folders and paths

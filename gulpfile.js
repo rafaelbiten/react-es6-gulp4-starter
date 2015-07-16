@@ -191,7 +191,13 @@ var images = {
 
 /* SPRITES TASKS
  * ------------------------------------------------------------------ */
-
+var svgs = {
+	main: function svgs() {
+		return gulp.src(paths.src.svgs + '**/*')
+			.pipe($.svgSprite(config.svgs))
+			.pipe(gulp.dest(paths.dist.svgs));
+	}
+}
 
 /* SVG TASK
  * ------------------------------------------------------------------ */
@@ -205,6 +211,8 @@ gulp.task('serve',
 		gulp.parallel(
 			fonts.main,
 			images.main,
+			svgs.main,
+
 			styles.main,
 			scripts.vendors,
 			scripts.modernizr,
