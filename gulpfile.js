@@ -24,23 +24,33 @@ var base = {
 	scaffold: function scaffold() {
 		return gulp.src(paths.source, { base: './' })
 
+
 			// normal flow, with vendors and main
 			// in two different files to speed up the task
 			.pipe( $.if( !production, $.htmlReplace({
-				'styles': paths.dist.styles + 'main.css',
-				'scripts': [
+				styles: paths.dist.styles + 'main.css',
+				scripts: [
 					paths.dist.scripts + 'vendors.js',
 					paths.dist.scripts + 'main.js'
 				],
-				'modernizr': paths.dist.scripts + 'modernizr.js'
+				modernizr: paths.dist.scripts + 'modernizr.js',
+				svgs: { src: config.svgs.sprite, tpl: '%s' }
 			}) ))
 
 			// run gulp with --prod flag to use minified versions
 			.pipe( $.if( production, $.htmlReplace({
-				'styles': paths.dist.styles + 'styles.min.css' + cacheBuster,
-				'scripts': paths.dist.scripts + 'scripts.min.js' + cacheBuster,
-				'modernizr': paths.dist.scripts + 'modernizr.js'
-			})))
+				styles: paths.dist.styles + 'styles.min.css' + cacheBuster,
+				scripts: paths.dist.scripts + 'scripts.min.js' + cacheBuster,
+				modernizr: paths.dist.scripts + 'modernizr.js',
+				svgs: { src: config.svgs.sprite, tpl: '%s' }
+			}) ))
+
+			// .pipe( $.htmlReplace({
+			// 	svgs: {
+			// 		src: config.svgs.sprite,
+			// 		tpl: '%s'
+			// 	}
+			// }) )
 
 			// base.src becomes index.{extension} - config.path.source
 			.pipe($.rename(paths.base))
@@ -192,27 +202,37 @@ var images = {
 /* SPRITES TASKS
  * ------------------------------------------------------------------ */
 var svgs = {
-	main: function svgs() {
+	createSprite: function svgs() {
 		return gulp.src(paths.src.svgs + '**/*')
-			.pipe($.svgSprite(config.svgs))
-			.pipe(gulp.dest(paths.dist.svgs));
+			// creates config.svgs.sprite object
+			.pipe($.svgSprite(config.svgs));
 	}
+}
+
+/* TIMER TASKS
+ * ------------------------------------------------------------------ */
+var timer = {
+	name: '\n\n[TIME SPENT ON ALL TASKS] ',
+	start: function start(done) { console.time(timer.name); done(); },
+	end: function end(done) { console.timeEnd(timer.name); done(); }
 }
 
 /* SVG TASK
  * ------------------------------------------------------------------ */
 
-
 gulp.task('serve',
 	gulp.series(
-		base.clean.pre,
+		gulp.parallel(
+			timer.start,
+			base.clean.pre,
+			svgs.createSprite
+		),
+
 		base.scaffold,
 
 		gulp.parallel(
 			fonts.main,
 			images.main,
-			svgs.main,
-
 			styles.main,
 			scripts.vendors,
 			scripts.modernizr,
@@ -224,7 +244,8 @@ gulp.task('serve',
 		gulp.parallel(
 			base.browserSync,
 			base.watch,
-			base.clean.post
+			base.clean.post,
+			timer.end
 		)
 ));
 

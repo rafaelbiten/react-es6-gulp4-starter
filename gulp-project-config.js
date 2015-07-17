@@ -1,5 +1,6 @@
 module.exports = (function() {
-	return {
+
+	var config = {
 
 	/* THESE ARE PROJECT SPECIFIC OPTIONS
 	 * they're meant to be changed as needed for each new projects
@@ -51,7 +52,8 @@ module.exports = (function() {
 			},
 			svg: {
 				xmlDeclaration: false,
-				doctypeDeclaration: false
+				doctypeDeclaration: false,
+				transform: [ function(sprite) { config.svgs.sprite = sprite; } ]
 			}
 		},
 
@@ -95,6 +97,8 @@ module.exports = (function() {
 			styles: true
 		}
 	};
+
+	return config;
 }());
 
 // helper functions

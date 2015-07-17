@@ -6,10 +6,6 @@
 			"path": "."
 		},
 		{
-			"name": "/dist",
-			"path": "./assets/dist/"
-		},
-		{
 			"name": "/source",
 			"path": "./assets/src/"
 		},

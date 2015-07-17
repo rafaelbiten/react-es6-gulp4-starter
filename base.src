@@ -10,6 +10,7 @@
 
 </head>
 <body>
+	<!-- build:svgs --><!-- endbuild -->
 
 	<div id="react-test"></div>
 	<div id="jquery-test"></div>
