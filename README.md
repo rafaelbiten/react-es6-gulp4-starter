@@ -28,13 +28,13 @@ The `serve` task is the only task that's currently being exposed to the user and
 	- will write proper documentation for this later...
 
 - **base.src**
-	- You'll notice that there's no index.[html, php, php.twig] file
-	- `base.src` will be compiled into your base.[extension]
-	- Config paths.base inside `gulp-project-config.js` with your base file
+	- You'll notice that there's no `index` file
+	- `base.src` will be compiled into index.[extension]
+	- Set name and extension for the `index` file inside `gulp-project-config.js`
 
 ### Features
 
-- **Scripts**
+- **SCRIPTS**
 ES6/ES2015 to ES5 with [Babel](https://babeljs.io/) with sourcemaps, works for [React](https://facebook.github.io/react/) compiling .jsx into .js, encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html), loads vendor scripts from package.json and supports custom Modernizr.
 
 	- **development:**
@@ -42,7 +42,7 @@ ES6/ES2015 to ES5 with [Babel](https://babeljs.io/) with sourcemaps, works for [
 	- **production with the `--prod` flag:**
 	-- [concat](https://www.npmjs.com/package/gulp-concat), [uglify](https://www.npmjs.com/package/gulp-uglify) and cache bust
 
-- **Styles**
+- **STYLES**
 Compiles SCSS to CSS with sourcemaps.
 
 	- **development:**
@@ -50,10 +50,10 @@ Compiles SCSS to CSS with sourcemaps.
 	- **production with the `--prod` flag:**
 	-- [autoprefix](https://www.npmjs.com/package/gulp-autoprefixer), [minify](https://www.npmjs.com/package/gulp-sass), [strip comments](https://www.npmjs.com/package/gulp-strip-css-comments), [combines MQ's](https://www.npmjs.com/package/gulp-combine-mq) and cache bust
 
-- **Fonts**
+- **FONTS**
 Copy fonts to `dist` folder excluding unnecessary files
 
-- **Images**
+- **IMAGES**
 Copy images to `dist` folder
 
 	- **development:**
@@ -61,10 +61,16 @@ Copy images to `dist` folder
 	- **production with the `--prod` flag:**
 	-- copy images and tries to [reduce](https://www.npmjs.com/package/gulp-imagemin) their sizes
 
-- **Sprites**
-TODO...
-
 - **SVG**
+Creates a single SVG sprite out of the SVGs inside `assets/src/svgs/`. Injects the sprite into the `index` file, right after the opening `<body>` tag. The result is a single **inline SVG**, so no new file or folder is created on the `dist/` folder.
+**Usage example:** for a file called `apple.svg` saved inside `assets/src/svgs/`, use something like `<svg class="svg--apple"><use xlink:href="#apple"></use></svg>`.
+
+	- **development:**
+	-- watch folder for new or removed SVGs
+	- **production with the `--prod` flag:**
+	-- creates the sprite and injects it into the index file
+
+- **IMAGE SPRITES**
 TODO...
 
 ----------
@@ -78,5 +84,5 @@ You don't need and probably shouldn't install Gulp 4 globally, but here's how it
 
 #### TODO
 - Account for a `views` folder;
-- sprites and svgs...
+- Image sprites...
 - What else?
