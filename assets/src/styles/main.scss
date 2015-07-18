@@ -3,7 +3,12 @@
 
 *, *:before, *:after { box-sizing: border-box; }
 
+body > svg:first-of-type { display: none; }
+
+.svg--css3 { fill: white; }
+
 body {
+
 	background-color: gray;
 	font-family: 'droid_sansregular';
 
@@ -22,6 +27,7 @@ body {
 		}
 	}
 }
+
 
 .terminal {
 	width: 600px;

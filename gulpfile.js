@@ -34,23 +34,16 @@ var base = {
 					paths.dist.scripts + 'main.js'
 				],
 				modernizr: paths.dist.scripts + 'modernizr.js',
-				svgs: { src: config.svgs.sprite, tpl: '%s' }
-			}) ))
+				svgs: config.svgs.sprite ? { src: config.svgs.sprite, tpl: '%s' } : ''
+			})))
 
 			// run gulp with --prod flag to use minified versions
 			.pipe( $.if( production, $.htmlReplace({
 				styles: paths.dist.styles + 'styles.min.css' + cacheBuster,
 				scripts: paths.dist.scripts + 'scripts.min.js' + cacheBuster,
 				modernizr: paths.dist.scripts + 'modernizr.js',
-				svgs: { src: config.svgs.sprite, tpl: '%s' }
-			}) ))
-
-			// .pipe( $.htmlReplace({
-			// 	svgs: {
-			// 		src: config.svgs.sprite,
-			// 		tpl: '%s'
-			// 	}
-			// }) )
+				svgs: config.svgs.sprite ? { src: config.svgs.sprite, tpl: '%s' } : ''
+			})))
 
 			// base.src becomes index.{extension} - config.path.source
 			.pipe($.rename(paths.base))
@@ -86,6 +79,11 @@ var base = {
 			gulp.watch(paths.src.styles + '**/*', styles.main);
 			gulp.watch(paths.src.scripts + '**/*', scripts.main);
 			gulp.watch(paths.src.images + '**/*', images.main);
+
+			gulp.watch(paths.src.svgs + '**/*', gulp.series(
+				svgs.main,
+				base.scaffold
+			));
 		}
 	},
 	browserSync: function browserSync() {
@@ -202,7 +200,7 @@ var images = {
 /* SPRITES TASKS
  * ------------------------------------------------------------------ */
 var svgs = {
-	createSprite: function svgs() {
+	main: function svgs() {
 		return gulp.src(paths.src.svgs + '**/*')
 			// creates config.svgs.sprite object
 			.pipe($.svgSprite(config.svgs));
@@ -225,7 +223,7 @@ gulp.task('serve',
 		gulp.parallel(
 			timer.start,
 			base.clean.pre,
-			svgs.createSprite
+			svgs.main
 		),
 
 		base.scaffold,

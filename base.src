@@ -12,6 +12,9 @@
 <body>
 	<!-- build:svgs --><!-- endbuild -->
 
+	<svg class="svg--css3"><use xlink:href="#css3"></use></svg>
+	<svg class="svg--apple"><use xlink:href="#apple"></use></svg>
+
 	<div id="react-test"></div>
 	<div id="jquery-test"></div>
 
