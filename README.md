@@ -2,7 +2,7 @@
 
 ### Quick Start
 
-1. Download the project and from the root folder run:
+1. Clone or download the project and from the root folder run:
 	**`$ npm install`** or **`$ sudo npm install`** if the first command fails
 
 2. When it's done installing all dependencies, from the same root folder run:
