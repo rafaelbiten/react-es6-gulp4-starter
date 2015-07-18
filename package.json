@@ -1,13 +1,17 @@
 {
   "name": "es6_workflow",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Starter with support for ES6/React, SASS, inline SVG sprites...",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafaelbiten/es6_starter.git"
+  },
+  "keywords": [ "ReactJS", "ES6", "Babel", "SVG Sprites" ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp": "./node_modules/gulp/bin/gulp.js"
   },
-  "author": "",
+  "author": "Rafael Bitencourt",
   "license": "ISC",
   "devDependencies": {
     "babelify": "^6.1.2",
