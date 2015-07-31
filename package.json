@@ -6,7 +6,12 @@
     "type": "git",
     "url": "https://github.com/rafaelbiten/es6_starter.git"
   },
-  "keywords": [ "ReactJS", "ES6", "Babel", "SVG Sprites" ],
+  "keywords": [
+    "ReactJS",
+    "ES6",
+    "Babel",
+    "SVG Sprites"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp": "./node_modules/gulp/bin/gulp.js"
@@ -41,7 +46,6 @@
     "yargs": "^3.14.0"
   },
   "dependencies": {
-    "jquery": "^2.1.4",
     "react": "^0.13.3"
   }
 }
