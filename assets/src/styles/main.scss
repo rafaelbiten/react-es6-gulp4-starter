@@ -1,45 +1,17 @@
-@import 'fonts';
-@import 'modules';
+// dependencies
+@import 'base/normalize';
+@import 'base/fonts';
+@import 'base/variables';
+@import 'base/mediaqueries';
+@import 'base/helpers';
+@import 'base/animations';
 
-*, *:before, *:after { box-sizing: border-box; }
+// base
+@import 'base/base';
 
-body > svg:first-of-type { display: none; }
+// layouts
+@import 'layout/header';
 
-.svg--css3 { fill: white; }
-
-body {
-
-	background-color: gray;
-	font-family: 'droid_sansregular';
-
-	@media (max-width: 600px) {
-		background-color: blue;
-	}
-
-	p {
-		color: white;
-		@include anime(color);
-
-		&:hover { color: black; }
-
-		@media (max-width: 600px) {
-			font-size: 30px;
-		}
-	}
-}
-
-
-.terminal {
-	width: 600px;
-	height: auto;
-}
-
-[class^='one'] { color: blue; }
-.one--red { color: red; }
-.one--green { color: green; }
-
-.two {
-	color: blue;
-	&--red { color: red; }
-	&--green { color: green; }
-}
+// modules
+@import 'modules/buttons';
+@import 'modules/icons';

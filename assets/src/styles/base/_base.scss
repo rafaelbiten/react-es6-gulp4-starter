@@ -1,0 +1,4 @@
+*, *:before, *:after { box-sizing: border-box; }
+body > svg:first-of-type { display: none; }
+
+body { @include breakpoint-label(); }
