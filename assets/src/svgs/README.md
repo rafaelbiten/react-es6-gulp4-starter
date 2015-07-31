@@ -1,4 +1,4 @@
-### SVGs Folder
+### SVGs
 
 A single SVG sprite containing all SVGs on this folder will be created and injected on the `index` file, right after the opening `<body>` tag.
 The result is a single **inline SVG**, so no new file or folder is created on the `dist/` folder.
