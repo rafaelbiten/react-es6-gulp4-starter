@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>ES6_Starter</title>
+	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- build:styles --><!-- endbuild -->
@@ -10,16 +12,12 @@
 
 </head>
 <body>
+
 	<!-- build:svgs --><!-- endbuild -->
 
-	<svg class="svg--css3"><use xlink:href="#css3"></use></svg>
-	<svg class="svg--apple"><use xlink:href="#apple"></use></svg>
-
-	<div id="react-test"></div>
-	<div id="jquery-test"></div>
-
-	<img class="terminal" src="assets/dist/images/terminal.png" alt="">
+	<div id="react-root"></div>
 
 	<!-- build:scripts --><!-- endbuild -->
+
 </body>
 </html>
