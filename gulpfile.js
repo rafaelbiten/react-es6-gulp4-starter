@@ -1,8 +1,10 @@
+var production	= require('yargs').argv.prod;
+if (production) { process.env.NODE_ENV = 'production'; }
+
 var gulp		= require('gulp');
 var babelify	= require('babelify');
 var browserify	= require('browserify');
 var bsync		= require('browser-sync');
-var production	= require('yargs').argv.prod;
 var source		= require('vinyl-source-stream');
 var buffer		= require('vinyl-buffer');
 var del			= require('del');
