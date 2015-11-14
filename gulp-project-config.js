@@ -89,7 +89,7 @@ module.exports = (function() {
 	 * ------------------------------------------------------------------- */
 
 		browserSync: {
-			open: false,
+			open: true,
 			notify: false,
 			server: { baseDir: './' },
 			browser: ['google chrome']
