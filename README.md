@@ -1,4 +1,5 @@
-# es6_( babel react )_starter
+# const Starter = ES6 => ES5;
+Starter using Gulp 4 and Babel 6. React 0.14 is prepacked as a `dev dependency`.
 
 ### Quick Start
 
@@ -35,12 +36,12 @@ The `serve` task is the only task that's currently being exposed to the user and
 ### Features
 
 - **SCRIPTS**
-ES6/ES2015 to ES5 with [Babel](https://babeljs.io/) with sourcemaps, works for [React](https://facebook.github.io/react/) compiling .jsx into .js, encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html), loads vendor scripts from package.json and supports custom Modernizr.
+ES6/ES2015 to ES5 using [Babel6](https://babeljs.io/) with sourcemaps, preconfigured to use [React](https://facebook.github.io/react/), encorages the use of [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html), automatically bundles dev dependencies from package.json into a separate file and supports custom Modernizr.
 
 	- **development:**
 	-- watch all files, except vendors' scripts
 	- **production with the `--prod` flag:**
-	-- [concat](https://www.npmjs.com/package/gulp-concat), [uglify](https://www.npmjs.com/package/gulp-uglify) and cache bust
+	-- [concat](https://www.npmjs.com/package/gulp-concat) and [uglify](https://www.npmjs.com/package/gulp-uglify) scripts into a single file and cache bust it
 
 - **STYLES**
 Compiles SCSS to CSS with sourcemaps.
@@ -70,13 +71,10 @@ Creates a single SVG sprite out of the SVGs inside `assets/src/svgs/`. Injects t
 	- **production with the `--prod` flag:**
 	-- creates the sprite and injects it into the index file
 
-- **IMAGE SPRITES**
-TODO...
-
 ----------
 
 #### Installing Gulp 4 globally
-You don't need and probably shouldn't install Gulp 4 globally, but here's how it can be done, for reference:
+You don't need and probably shouldn't install Gulp 4 (or any other Gulp version) globally, but here's how it can be done, for reference:
 `$ npm uninstall -g gulp` to uninstall your current Gulp version
 `$ npm install -g gulpjs/gulp.git#4.0` to install Gulp 4 CLI globally
 

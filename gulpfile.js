@@ -139,7 +139,7 @@ function scripts() {
 	});
 
 	return stream
-		.transform(babelify)
+		.transform(babelify, { presets: config.presets })
 		.bundle().on('error', errorHandler.bind(this))
 		.pipe(source('main.js'))
 		.pipe(gulp.dest(paths.dist.scripts))

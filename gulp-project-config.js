@@ -6,6 +6,9 @@ module.exports = (function() {
 	 * they're meant to be changed as needed for each new projects
 	 * ------------------------------------------------------------------- */
 
+		// babel presets
+		presets: ['es2015', 'react'],
+
 		// autoprefixer
 		autoprefixer: {
 			browsers: [
@@ -86,7 +89,7 @@ module.exports = (function() {
 	 * ------------------------------------------------------------------- */
 
 		browserSync: {
-			open: true,
+			open: false,
 			notify: false,
 			server: { baseDir: './' },
 			browser: ['google chrome']
